@@ -6,6 +6,7 @@ import Comments from "./Comments"
 function Display({ video }) {
 
     const [videoComments, setVideoComments] = useState(video.comments)
+    const [showComments, setShowComments] = useState(true)
 
     return (
         <div>
@@ -20,15 +21,16 @@ function Display({ video }) {
             <h1>{video.title}</h1>
             <p>{video.views} Views | Uploaded {video.createdAt}</p>
             <Likes video={video}/>
-            <div>
-                <button className="hide">Hide Comments</button>
-                <hr />
-                <h1>{videoComments.length} Comments</h1>
-                {videoComments.map((comment) => 
-                    <Comments id={comment.id} comment={comment.comment} user={comment.user}/>
+                <button className="hide" onClick={() => setShowComments(!showComments)}>Hide Comments</button>
+                {showComments && (
+                    <div>
+                        <hr />
+                        <h1>{videoComments.length} Comments</h1>
+                        {videoComments.map((comment) => 
+                            <Comments key={comment.id} id={comment.id} comment={comment.comment} user={comment.user}/>
+                        )}
+                    </div>
                 )}
-            </div>
-            
         </div>
     )
 }
